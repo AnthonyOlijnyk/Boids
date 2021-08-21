@@ -1,0 +1,12 @@
+﻿  Boid.cpp
+C:\Users\antho\source\repos\Boid\Boid\Boid.h(18,23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  Flock.cpp
+C:\Users\antho\source\repos\Boid\Boid\Boid.h(18,23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+C:\Users\antho\source\repos\Boid\Boid\Flock.cpp(6,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Game.cpp
+C:\Users\antho\source\repos\Boid\Boid\Boid.h(18,23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+C:\Users\antho\source\repos\Boid\Boid\Game.cpp(96,10): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+  main.cpp
+C:\Users\antho\source\repos\Boid\Boid\Boid.h(18,23): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  Generating Code...
+  Boid.vcxproj -> C:\Users\antho\source\repos\Boid\x64\Debug\Boid.exe
