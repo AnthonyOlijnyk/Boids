@@ -5,7 +5,11 @@
       <FullPath>C:\Users\antho\source\repos\Boid\x64\Debug\Boid.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\antho\source\repos\Boid\Boid\math\MathAndPhysics.h</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>

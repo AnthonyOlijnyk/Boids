@@ -15,19 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="main\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="main\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Boid.cpp">
+    <ClCompile Include="boid\Boid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Flock.cpp">
+    <ClCompile Include="boid\Flock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MathAndPhysics.cpp">
+    <ClCompile Include="math\MathAndPhysics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -37,16 +37,16 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="main\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Boid.h">
+    <ClInclude Include="boid\Boid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Flock.h">
+    <ClInclude Include="boid\Flock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MathAndPhysics.h">
+    <ClInclude Include="math\MathAndPhysics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

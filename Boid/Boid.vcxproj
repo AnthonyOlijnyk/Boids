@@ -118,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\antho\source\repos\Boid\Boid;C:\Users\antho\source\repos\Boid\Boid\boid;C:\Users\antho\source\repos\Boid\Boid\math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,11 +143,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Boid.cpp" />
-    <ClCompile Include="Flock.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MathAndPhysics.cpp" />
+    <ClCompile Include="boid\Boid.cpp" />
+    <ClCompile Include="boid\Flock.cpp" />
+    <ClCompile Include="main\Game.cpp" />
+    <ClCompile Include="main\main.cpp" />
+    <ClCompile Include="math\MathAndPhysics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Desktop\boidimg\boid.png">
@@ -154,10 +155,12 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Boid.h" />
-    <ClInclude Include="Flock.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="MathAndPhysics.h" />
+    <ClInclude Include="boid\Boid.h" />
+    <ClInclude Include="boid\Flock.h" />
+    <ClInclude Include="main\Game.h" />
+    <ClInclude Include="math\MathAndPhysics.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
