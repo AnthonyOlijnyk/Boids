@@ -1,9 +1,0 @@
-﻿  Boid.cpp
-  Flock.cpp
-  Game.cpp
-C:\Users\antho\source\repos\Boid\Boid\main\Game.cpp(5,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\antho\source\repos\Boid\Boid\main\Game.cpp(103,10): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-  main.cpp
-  MathAndPhysics.cpp
-  Generating Code...
-  Boid.vcxproj -> C:\Users\antho\source\repos\Boid\x64\Debug\Boid.exe
