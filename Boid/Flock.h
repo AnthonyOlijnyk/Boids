@@ -2,6 +2,8 @@
 #include <vector>
 #include <time.h>
 #include "Boid.h"
+#include "MathAndPhysics.h"
+
 class Flock
 {
 private:
@@ -13,8 +15,6 @@ public:
 	Flock(int numBoids, const int width, const int height, SDL_Texture* boidTexture);
 	Boid* getBoid(int index);
 	size_t getSize();
-	std::vector<Boid> getFlock();
 	void simulate(float deltaTime, SDL_Renderer* renderer);
-	void updateBounds(int width, int height);
 };
 

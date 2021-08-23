@@ -1,6 +1,4 @@
 #include "Game.h"
-#include "Boid.h"
-#include <iostream>
 
 Game::Game()
 {
@@ -50,7 +48,7 @@ void Game::run()
 	float start = 0;
 	float end = 0;
 	float deltaTime = 0;
-	Flock flock(5, this->SCREEN_WIDTH, this->SCREEN_HEIGHT, this->boidTexture);
+	Flock flock(50, this->SCREEN_WIDTH, this->SCREEN_HEIGHT, this->boidTexture);
 	while (this->isRunning)
 	{
 		start = this->getTimeSeconds();

@@ -1,145 +1,181 @@
 #include "Boid.h"
-#include "math.h"
-#include "Utils.h"
 
-Boid::Boid(float xPosition, float yPosition, float xVelocity, float yVelocity, double angle, SDL_Texture* boidTexture)
-	: xPosition(xPosition), yPosition(yPosition), xVelocity(xVelocity), yVelocity(yVelocity), 
-	  angle(angle), boidTexture(boidTexture)
+Boid::Boid(int screenWidth, int screenHeight, SDL_Texture* boidTexture) : boidTexture(boidTexture)
 {
+	this->position = MathAndPhysics::randomPositionVector(screenWidth, screenHeight);
+	this->velocity = MathAndPhysics::randomVector(this->maxSpeed);
+	this->acceleration = MathAndPhysics::randomVector(this->maxAcceleration);
 }
-
-
 
 void Boid::update(float deltaTime, int screenWidth, int screenHeight, std::vector<Boid> boids, SDL_Renderer* renderer)
 {
 	this->getCloseBoids(boids);
-	this->align();
-	this->applyImpulse(deltaTime);
-	this->checkBounds(screenWidth, screenHeight);
+	this->calculateFNet();
+	this->applyImpulse(deltaTime, screenWidth, screenHeight);
 	this->closeBoids.clear();
 	this->renderBoid(renderer);
 }
 
 void Boid::renderBoid(SDL_Renderer* renderer)
 {
-	SDL_Rect position = { (int)this->xPosition, (int)this->yPosition, this->width, this->height };
-	SDL_RenderCopyEx(renderer, this->boidTexture, NULL, &position, this->angle * (180 / M_PI), NULL, SDL_FLIP_NONE);
+	SDL_Rect position = { (int)this->position.x, (int)this->position.y, this->width, this->height };
+	SDL_RenderCopyEx(renderer, this->boidTexture, NULL, &position, this->velocity.angle * (180 / M_PI), NULL, SDL_FLIP_NONE);
 }
 
 void Boid::checkBounds(int width, int height)
 {
-	if (this->xPosition > width)
+	if (this->position.x > width)
 	{
-		this->xPosition = 0;
+		this->position.x = 0.f;
 	}
-	else if (this->xPosition < 0)
+	else if (this->position.x < 0)
 	{
-		this->xPosition = (float) width;
+		this->position.x = (double) width;
 	}
 
-	if (this->yPosition > height)
+	if (this->position.y > height)
 	{
-		this->yPosition = 0;
+		this->position.y = 0.f;
 	}
-	else if (this->yPosition < 0)
+	else if (this->position.y < 0)
 	{
-		this->yPosition = (float) height;
+		this->position.y = (double) height;
 	}
 
 }
 
-void Boid::generateRandomImpulse()
-{
-	this->xAcceleration = (float) ((rand() % 2) - 1);
-	this->yAcceleration = (float) ((rand() % 2) - 1);
-}
-
-void Boid::applyImpulse(float deltaTime)
+void Boid::applyImpulse(float deltaTime, int screenWidth, int screenHeight)
 {
 	this->updateVelocity(deltaTime);
 	this->limitVelocity();
 	this->updatePosition(deltaTime);
+	this->checkBounds(screenWidth, screenHeight);
 }
 
 void Boid::updateVelocity(float deltaTime)
 {
-	this->xVelocity += this->xAcceleration * this->friction * deltaTime;
-	this->yVelocity += this->yAcceleration * this->friction * deltaTime;
+	MathAndPhysics::Vector correctedAcceleration = MathAndPhysics::multiplyScalar(this->acceleration, this->friction * deltaTime);
+	this->velocity = MathAndPhysics::addVectors(this->velocity, correctedAcceleration);
 }
 
 void Boid::limitVelocity()
 {
-	if (std::abs(this->xVelocity) > maxSpeed)
+	if (this->velocity.x > this->maxSpeed)
 	{
-		this->xVelocity = maxSpeed;
+		this->velocity.x = this->maxSpeed;
 	}
-	if (std::abs(this->yVelocity) > maxSpeed)
+	else if (this->velocity.x < -this->maxSpeed)
 	{
-		this->yVelocity = maxSpeed;
+		this->velocity.x = -this->maxSpeed;
 	}
-	this->angle = Utils::findAngleRadians(this->yVelocity, this->xVelocity);
+	if (this->velocity.y > this->maxSpeed)
+	{
+		this->velocity.y = this->maxSpeed;
+	}
+	else if (this->velocity.y < -this->maxSpeed)
+	{
+		this->velocity.y = -this->maxSpeed;
+	}
+	this->velocity.angle = MathAndPhysics::findAngleRadians(this->velocity.y, this->velocity.x);
 }
 
 void Boid::updatePosition(float deltaTime)
 {
-	this->xPosition += this->xVelocity * deltaTime;
-	this->yPosition += this->yVelocity * deltaTime;
+	MathAndPhysics::Vector correctedVelocity = MathAndPhysics::multiplyScalar(this->velocity, deltaTime);
+	this->position = MathAndPhysics::addVectors(this->position, this->velocity);
 }
 
 void Boid::getCloseBoids(std::vector<Boid> &boids)
 {
 	for (int i = 0; i < boids.size(); i++)
 	{
-		float distance = Utils::distance(this->xPosition, this->yPosition, boids[i].getXPosition(), boids[i].getYPosition());
-		if (distance != 0 && distance < distanceConsideredClose)
+		MathAndPhysics::Vector candidateBoidPosition = boids[i].getPosition();
+		double distance = MathAndPhysics::distance(this->position.x, this->position.y, candidateBoidPosition.x, candidateBoidPosition.y);
+		if (distance != 0 && distance < this->distanceConsideredClose)
 		{
 			this->closeBoids.push_back(boids[i]);
 		}
 	}
 }
 
-void Boid::align()
+MathAndPhysics::Vector Boid::align()
 {
 	if (closeBoids.size() == 0)
 	{
-		this->generateRandomImpulse();
-		return;
+		return MathAndPhysics::randomVector(this->maxAcceleration);
 	}
-	float totalXVelocity = 0.f;
-	float totalYVelocity = 0.f;
+
+	MathAndPhysics::Vector totalVelocityVector;
 	for (int i = 0; i < this->closeBoids.size(); i++)
 	{
-		totalXVelocity += closeBoids[i].getXVelocity();
-		totalYVelocity += closeBoids[i].getYVelocity();
+		MathAndPhysics::Vector closeBoidVelocity = closeBoids[i].getVelocity();
+		totalVelocityVector = MathAndPhysics::addVectors(totalVelocityVector, closeBoidVelocity);
 	}
-	float averageXVelocity = totalXVelocity / closeBoids.size();
-	float averageYVelocity = totalYVelocity / closeBoids.size();
+	MathAndPhysics::Vector averageVelocity = MathAndPhysics::multiplyScalar(totalVelocityVector, 1.f / closeBoids.size());
+	MathAndPhysics::Vector correctedAverage = MathAndPhysics::setMagnitude(averageVelocity, this->maxSpeed);
+	MathAndPhysics::Vector correctionForce = MathAndPhysics::subtractVectors(correctedAverage, this->velocity);
 
-	this->xAcceleration = averageXVelocity - this->xVelocity;
-	this->yAcceleration = averageYVelocity - this->yVelocity;
+	return correctionForce;
 }
 
-float Boid::getXPosition()
+MathAndPhysics::Vector Boid::cohesion()
 {
-	return this->xPosition;
+	if (closeBoids.size() == 0)
+	{
+		return MathAndPhysics::randomVector(this->maxAcceleration);
+	}
+
+	MathAndPhysics::Vector totalPositionVector;
+	for (int i = 0; i < this->closeBoids.size(); i++)
+	{
+		MathAndPhysics::Vector closeBoidsPosition = this->closeBoids[i].getPosition();
+		totalPositionVector = MathAndPhysics::addVectors(totalPositionVector, closeBoidsPosition);
+	}
+	MathAndPhysics::Vector averagePosition = MathAndPhysics::multiplyScalar(totalPositionVector, 1.f / this->closeBoids.size());
+	MathAndPhysics::Vector correctionDirection = MathAndPhysics::subtractVectors(averagePosition, this->position);
+	MathAndPhysics::Vector optimalVelocity = MathAndPhysics::setMagnitude(correctionDirection, this->maxSpeed);
+	MathAndPhysics::Vector correctionForce = MathAndPhysics::subtractVectors(optimalVelocity, this->velocity);
+
+	return correctionForce;
 }
 
-float Boid::getYPosition()
+MathAndPhysics::Vector Boid::separation()
 {
-	return this->yPosition;
+	if (closeBoids.size() == 0)
+	{
+		return MathAndPhysics::randomVector(this->maxAcceleration);
+	}
+
+	MathAndPhysics::Vector totalDifferenceVector;
+	for (int i = 0; i < this->closeBoids.size(); i++)
+	{
+		MathAndPhysics::Vector closeBoidsPosition = this->closeBoids[i].getPosition();
+		double distanceFromSelf = MathAndPhysics::distance(this->position.x, this->position.y, closeBoidsPosition.x, closeBoidsPosition.y);
+		MathAndPhysics::Vector differenceVector = MathAndPhysics::subtractVectors(this->position, closeBoidsPosition);
+		MathAndPhysics::Vector correctedDifference = MathAndPhysics::multiplyScalar(differenceVector, 1.f / distanceFromSelf);
+		totalDifferenceVector = MathAndPhysics::addVectors(totalDifferenceVector, correctedDifference);
+	}
+	MathAndPhysics::Vector averageDifference = MathAndPhysics::multiplyScalar(totalDifferenceVector, 1.f / this->closeBoids.size());
+	MathAndPhysics::Vector optimalVelocity = MathAndPhysics::setMagnitude(averageDifference, this->maxSpeed);
+	MathAndPhysics::Vector correctionForce = MathAndPhysics::subtractVectors(optimalVelocity, this->velocity);
+
+	return correctionForce;
 }
 
-float Boid::getXVelocity()
+void Boid::calculateFNet()
 {
-	return this->xVelocity;
+	MathAndPhysics::Vector alignForce = this->align();
+	MathAndPhysics::Vector cohesionForce = this->cohesion();
+	MathAndPhysics::Vector separationForce = this->separation();
+	this->acceleration = MathAndPhysics::addVectors(alignForce, cohesionForce, separationForce);
 }
 
-float Boid::getYVelocity()
+MathAndPhysics::Vector Boid::getVelocity()
 {
-	return this->yVelocity;
+	return this->velocity;
 }
 
-double Boid::getAngle()
+MathAndPhysics::Vector Boid::getPosition()
 {
-	return this->angle;
+	return this->position;
 }

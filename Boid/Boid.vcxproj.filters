@@ -27,7 +27,7 @@
     <ClCompile Include="Flock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils.cpp">
+    <ClCompile Include="MathAndPhysics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -46,7 +46,7 @@
     <ClInclude Include="Flock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h">
+    <ClInclude Include="MathAndPhysics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
