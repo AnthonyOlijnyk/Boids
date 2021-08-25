@@ -2,7 +2,7 @@
 ![](gifs/main.gif)
 
 This project simulates the flocking behavior that is seen in birds using the principles outlined in Craig Reynolds paper seen [here.](https://www.cs.toronto.edu/~dt/siggraph97-course/cwr87/)
-In addition, there is also a physics engine made entirely from scratch.
+In addition, there is also a physics engine made entirely from scratch. The whole project was made with pure C++ and the SDL2 library for graphics
 
 The three main ideas that contribute to flocking are:
 - Separation: a boid will tend to try and not crowd other close by boids
