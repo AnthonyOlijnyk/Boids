@@ -108,7 +108,7 @@ void Boid::getCloseBoids(std::vector<Boid> &boids)
 		double angleToCheck = pointingTowardsClose.angle * (180 / M_PI);
 		double currentVelocityAngle = this->velocity.angle;
 
-		if (distanceAway != 0 && distanceAway < this->distanceConsideredClose && abs(angleToCheck - currentVelocityAngle) < 150)
+		if (distanceAway != 0 && distanceAway < this->distanceConsideredClose && abs(angleToCheck - currentVelocityAngle) < 200)
 		{
 			this->currentBoidTexture = boids[i].getTexture();
 			this->closeBoids.push_back(boids[i]);

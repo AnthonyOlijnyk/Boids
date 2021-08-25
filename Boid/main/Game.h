@@ -22,7 +22,7 @@ private:
 	SDL_Texture* boidTexture = NULL;
 	Flock flock;
 	ObstacleCollection obstacles;
-	int boidPopulation = 50;
+	int boidPopulation = 80;
 	size_t numberOfObstacles = 0;
 	int obstacleWidth = 10;
 	int obstacleHeight = 10;

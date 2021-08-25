@@ -11,8 +11,8 @@
 class Boid
 {
 private:
-	const double maxSpeed = 6;
-	const double maxAcceleration = 3;
+	const double maxSpeed = 10;
+	const double maxAcceleration = 10;
 	const double friction = 0.9;
 	const double distanceConsideredClose = 60;
 	const double distanceObstacleConsideredClose = 50;
