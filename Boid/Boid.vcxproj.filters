@@ -30,6 +30,12 @@
     <ClCompile Include="math\MathAndPhysics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="obstacle\Obstacle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="obstacle\ObstacleCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Desktop\boidimg\boid.png">
@@ -47,6 +53,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="math\MathAndPhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="obstacle\Obstacle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="obstacle\ObstacleCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

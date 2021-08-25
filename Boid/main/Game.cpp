@@ -3,14 +3,17 @@
 Game::Game()
 {
 	srand(time(NULL));
+	this->initPaths();
 	this->initImage();
 	this->initWindow();
 	this->initRenderer();
-	for (const char* path : paths)
+	for (std::string path : paths)
 	{
-		SDL_Texture* texture = this->loadTexture(path);
+		SDL_Texture* texture = this->loadTexture(path.c_str());
 		this->textures.push_back(texture);
 	}
+	this->initFlock();
+	this->initObstacles();
 }
 
 void Game::initWindow()
@@ -30,9 +33,7 @@ void Game::initWindow()
 			this->isRunning = false;
 		}
 	}
-	SDL_Surface* surface = IMG_Load(this->paths[rand() % paths.size()]);
-	SDL_SetWindowIcon(this->window, surface);
-	SDL_FreeSurface(surface);
+	this->setWindowIcon();
 }
 
 void Game::initRenderer()
@@ -45,39 +46,83 @@ void Game::initImage()
 	int flag = IMG_INIT_PNG;
 	int initted = IMG_Init(flag);
 	if ((initted & flag) != flag) {
-		printf("IMG_Init: Failed to init required jpg and png support!\n");
+		printf("IMG_Init: Failed to init required png support!\n");
 		printf("IMG_Init: %s\n", IMG_GetError());
 		this->isRunning = false;
 	}
 }
 
+void Game::initPaths()
+{
+	for (size_t i = 1; i <= 56; ++i)
+	{
+		std::string path = "gfx/" + std::to_string(i) + ".png";
+		this->paths.push_back(path);
+	}
+}
+
 void Game::run()
 {
-	float start = 0;
-	float end = 0;
-	float deltaTime = 0;
-	Flock flock(50, this->SCREEN_WIDTH, this->SCREEN_HEIGHT, this->textures);
 	while (this->isRunning)
 	{
-		start = this->getTimeSeconds();
+		this->start = this->getTimeSeconds();
 		SDL_SetRenderDrawColor(this->renderer, 45, 45, 45, 255);
 		SDL_RenderClear(this->renderer);
 		while (SDL_PollEvent(&this->event))
 		{
 			switch (this->event.type)
 			{
-			case SDL_QUIT:
-				this->isRunning = false;
-				break;
+				case SDL_KEYDOWN:
+					switch (event.key.keysym.sym)
+					{
+						case SDLK_o:
+							this->addObstacleOnClick();
+							break;
 
-			default:
-				break;
+						case SDLK_b:
+							this->addBoidOnClick();
+							break;
+
+						case SDLK_p:
+							this->obstacles.clearObstacles();
+							break;
+
+						case SDLK_n:
+							this->flock.clearFlock();
+							break;
+
+						case SDLK_r:
+							this->flock.clearFlock();
+							this->obstacles.clearObstacles();
+							break;
+
+						case SDLK_i:
+							this->obstacles.removeLast();
+							break;
+
+						case SDLK_v:
+							this->flock.removeLast();
+
+
+						default:
+							break;
+					}
+					break;
+
+				case SDL_QUIT:
+					this->isRunning = false;
+					break;
+
+				default:
+					break;
 			}
 		}
 		SDL_Delay(10);
-		end = this->getTimeSeconds();
-		deltaTime = end - start;
-		flock.simulate(deltaTime, this->renderer);
+		this->end = this->getTimeSeconds();
+		this->deltaTime = this->end - this->start;
+		std::vector<Obstacle> obstaclesInCollection = this->obstacles.getObstacleCollection();
+		this->flock.simulate(this->deltaTime, obstaclesInCollection, this->renderer);
+		this->obstacles.renderObstacles(this->renderer);
 		SDL_RenderPresent(this->renderer);
 	}
 	this->clearMemory();
@@ -102,6 +147,39 @@ float Game::getTimeSeconds()
 {
 	float t = SDL_GetTicks();
 	return t / 1000;
+}
+
+void Game::initFlock()
+{
+	this->flock = Flock(this->boidPopulation, this->SCREEN_WIDTH, this->SCREEN_HEIGHT, this->textures);
+}
+
+void Game::initObstacles()
+{
+	this->obstacles = ObstacleCollection(this->numberOfObstacles, this->SCREEN_WIDTH, this->SCREEN_HEIGHT, this->obstacleWidth, this->obstacleHeight);
+}
+
+void Game::addObstacleOnClick()
+{
+	int mouseX = 0;
+	int mouseY = 0;
+	SDL_GetMouseState(&mouseX, &mouseY);
+	this->obstacles.addObstacle(mouseX, mouseY, this->obstacleWidth, this->obstacleHeight);
+}
+
+void Game::addBoidOnClick()
+{
+	int mouseX = 0;
+	int mouseY = 0;
+	SDL_GetMouseState(&mouseX, &mouseY);
+	this->flock.addBoid((double)mouseX, (double)mouseY);
+}
+
+void Game::setWindowIcon()
+{
+	SDL_Surface* surface = IMG_Load(this->paths[rand() % paths.size()].c_str());
+	SDL_SetWindowIcon(this->window, surface);
+	SDL_FreeSurface(surface);
 }
 
 void Game::clearMemory()

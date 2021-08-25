@@ -118,7 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\antho\source\repos\Boid\Boid;C:\Users\antho\source\repos\Boid\Boid\boid;C:\Users\antho\source\repos\Boid\Boid\math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\antho\source\repos\Boid\Boid;C:\Users\antho\source\repos\Boid\Boid\boid;C:\Users\antho\source\repos\Boid\Boid\math;C:\Users\antho\source\repos\Boid\Boid\obstacle;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,6 +148,8 @@
     <ClCompile Include="main\Game.cpp" />
     <ClCompile Include="main\main.cpp" />
     <ClCompile Include="math\MathAndPhysics.cpp" />
+    <ClCompile Include="obstacle\Obstacle.cpp" />
+    <ClCompile Include="obstacle\ObstacleCollection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Desktop\boidimg\boid.png">
@@ -161,6 +163,8 @@
     <ClInclude Include="math\MathAndPhysics.h">
       <DeploymentContent>true</DeploymentContent>
     </ClInclude>
+    <ClInclude Include="obstacle\Obstacle.h" />
+    <ClInclude Include="obstacle\ObstacleCollection.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
