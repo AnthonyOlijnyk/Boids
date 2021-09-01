@@ -12,20 +12,24 @@ The three main ideas that contribute to flocking are:
 The above three rules are applied through Newtons second law of motion.
 
 ![](gifs/Fnetma.gif)
+(Fnet = ma if you're in dark mode)
 
 in this simulation, all boids are considered to have a mass of 1. Because of this, the formula can be adjusted to be:
 
 ![](gifs/Fneta.gif)
+(Fnet = a if you're in dark mode)
 
 substituting in the three main forces, we arrive at the equation:
 
 ![](gifs/sum.gif)
+(Fseparation + Falignment + Fcohesion = a if you're in dark mode)
 
 In addition to the three main forces, I also add an additional force to steer the boids away from spawned obstacles, so the final equation is:
 
 ![](gifs/final.gif)
+(Fseparation + Falignment + Fcohesion + Favoid = a if you're in dark mode)
 
-We can see this equation in action at the `calculateFNet()` function in the `boid.cpp` file.
+We can see this equation in action at the `calculateFNet()` function in the `Boid.cpp` file.
 
 ## Controls
 
