@@ -14,8 +14,8 @@ private:
 	std::vector<std::string> paths;
 	std::vector<SDL_Texture*> textures;
 	bool isRunning = true;
-	const int SCREEN_WIDTH = 640;
-	const int SCREEN_HEIGHT = 480;
+	const int SCREEN_WIDTH = 1600;
+	const int SCREEN_HEIGHT = 900;
 	SDL_Window* window = NULL;
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL;

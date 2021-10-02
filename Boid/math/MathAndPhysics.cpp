@@ -7,21 +7,7 @@ double MathAndPhysics::distance(double x1, double y1, double x2, double y2)
 
 double MathAndPhysics::findAngleRadians(double opposite, double adjacent)
 {
-	if (adjacent == 0.f)
-	{
-		if (opposite > 0)
-		{
-			return M_PI / 2;
-		}
-		else
-		{
-			return 3 * M_PI / 2;
-		}
-	}
-	else
-	{
 		return (double) atan2(opposite, adjacent);
-	}
 }
 
 MathAndPhysics::Vector MathAndPhysics::addVectors(Vector& v1, Vector& v2)
@@ -53,7 +39,7 @@ MathAndPhysics::Vector MathAndPhysics::randomVector(double magnitude)
 {
 	int multFactor[] = { 1, -1 };
 	double xComponent = (double) (rand() % ((int) magnitude + 1));
-	double yComponent = magnitude - xComponent;
+	double yComponent = sqrt(pow(magnitude, 2) - pow(xComponent, 2));
 	int xComponentFactor = rand() % 2;
 	int yComponentFactor = rand() % 2;
 	return Vector(xComponent * multFactor[xComponentFactor], yComponent * multFactor[yComponentFactor]);

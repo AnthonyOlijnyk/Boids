@@ -104,14 +104,18 @@ void Boid::getCloseBoids(std::vector<Boid> &boids)
 	{
 		Vector candidateBoidPosition = boids[i].getPosition();
 		double distanceAway = distance(this->position.x, this->position.y, candidateBoidPosition.x, candidateBoidPosition.y);
-		Vector pointingTowardsClose = subtractVectors(candidateBoidPosition, this->position);
-		double angleToCheck = pointingTowardsClose.angle * (180 / M_PI);
+		double angleToCheck = candidateBoidPosition.angle * (180 / M_PI);
 		double currentVelocityAngle = this->velocity.angle;
 
-		if (distanceAway != 0 && distanceAway < this->distanceConsideredClose && abs(angleToCheck - currentVelocityAngle) < 200)
+		if (distanceAway != 0 && distanceAway < this->distanceConsideredClose && abs(angleToCheck - currentVelocityAngle) < 180)
 		{
 			this->currentBoidTexture = boids[i].getTexture();
 			this->closeBoids.push_back(boids[i]);
+		}
+
+		if (this->closeBoids.empty())
+		{
+			this->currentBoidTexture = this->originalBoidTexture;
 		}
 	}
 }
@@ -127,10 +131,6 @@ void Boid::getCloseObstacles(std::vector<Obstacle>& obstacles)
 		{
 			this->obstaclesInSight.push_back(obstacles[i]);
 		}
-	}
-	if (this->obstaclesInSight.empty())
-	{
-		this->currentBoidTexture = this->originalBoidTexture;
 	}
 }
 
@@ -227,7 +227,7 @@ void Boid::calculateFNet()
 	Vector cohesionForce = this->cohesion();
 	Vector separationForce = this->separation();
 	Vector obstacleAvoidanceForce = this->avoidObstacles();
-	Vector correctedObstacleAvoidanceForce = multiplyScalar(obstacleAvoidanceForce, 20);
+	Vector correctedObstacleAvoidanceForce = multiplyScalar(obstacleAvoidanceForce, 8);
 	this->acceleration = addVectors(alignForce, cohesionForce, separationForce, correctedObstacleAvoidanceForce);
 }
 

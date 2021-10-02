@@ -11,11 +11,11 @@
 class Boid
 {
 private:
-	const double maxSpeed = 10;
+	const double maxSpeed = 15;
 	const double maxAcceleration = 10;
 	const double friction = 0.9;
 	const double distanceConsideredClose = 60;
-	const double distanceObstacleConsideredClose = 50;
+	const double distanceObstacleConsideredClose = 70;
 	const int width = 20;
 	const int height = 20;
 	SDL_Texture* currentBoidTexture;

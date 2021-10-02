@@ -143,7 +143,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="boid\Boid.cpp" />
+    <ClCompile Include="boid\Boid.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="boid\Flock.cpp" />
     <ClCompile Include="main\Game.cpp" />
     <ClCompile Include="main\main.cpp" />
