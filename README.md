@@ -46,4 +46,4 @@ We can see this equation in action at the `calculateFNet()` function in the `Boi
 
 Here is a simplified UML diagram that shows how the project was layed out:
 
-![](gifs/UML.gif)
+![](gifs/UML.GIF)
