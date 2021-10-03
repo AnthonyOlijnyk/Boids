@@ -23,14 +23,21 @@ namespace MathAndPhysics
 		{
 			return sqrt(pow(x, 2) + pow(y, 2));
 		}
+		Vector operator+(const Vector& v) const
+		{
+			return Vector(this->x + v.x, this->y + v.y);
+		}
+		Vector operator-(const Vector& v) const
+		{
+			return Vector(this->x - v.x, this->y - v.y);
+		}
+		Vector operator*(const double val) const
+		{
+			return Vector(this->x * val, this->y * val);
+		}
 	};
-	 Vector addVectors(Vector& v1, Vector& v2);
-	 Vector addVectors(Vector& v1, Vector& v2, Vector& v3);
-	 Vector addVectors(Vector& v1, Vector& v2, Vector& v3, Vector& v4);
-	 Vector subtractVectors(Vector& v1, Vector& v2);
-	 Vector multiplyScalar(Vector& v, double scalar);
-	 Vector randomVector(double magnitude);
-	 Vector randomPositionVector(int x, int y);
-	 Vector normalizeVector(Vector& v);
-	 Vector setMagnitude(Vector& v, double magnitude);
+	Vector randomVector(double magnitude);
+	Vector randomPositionVector(int x, int y);
+	Vector normalizeVector(Vector& v);
+	Vector setMagnitude(Vector& v, double magnitude);
 }

@@ -11,10 +11,16 @@
 class Boid
 {
 private:
-	const double maxSpeed = 15;
-	const double maxAcceleration = 10;
+	const double obstacleCoefficient = 8.0;
+	const double alignmentCoefficient = 1.0;
+	const double separationCoefficient = 1.1;
+	const double cohesionCoefficient = 1.1;
+	const double angleInVision = 110;
+	const double randomAccelerationMagnitude = 2;
+	const double maxSpeed = 20;
+	const double maxAcceleration = 15;
 	const double friction = 0.9;
-	const double distanceConsideredClose = 60;
+	const double distanceConsideredClose = 80;
 	const double distanceObstacleConsideredClose = 70;
 	const int width = 20;
 	const int height = 20;

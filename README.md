@@ -40,3 +40,10 @@ We can see this equation in action at the `calculateFNet()` function in the `Boi
 - The `r` key will completely remove all boids and obstacles at once
 
 ![](gifs/reset.gif)
+
+
+## Design
+
+Here is a simplified UML diagram that shows how the project was layed out:
+
+![](gifs/UML.gif)
